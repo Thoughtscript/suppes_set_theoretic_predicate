@@ -27,18 +27,32 @@ The main utility of such a technique/approach is the ability to succinctly repre
 
 *An example of this approach using the **Data ETL** (described below) is provided a "lab" (of sorts) within the contents of this repo.*
 
+* Lean 4 model: [`_lean/ClassicalMechanics.lean`](_lean/ClassicalMechanics.lean)
+* LaTeX source: [`_latex/classical_mechanics.tex`](_latex/classical_mechanics.tex)
+* BibTeX references: [`_latex/references.bib`](_latex/references.bib)
+* Compiled PDF: [`_pdf/classical_mechanics.pdf`](_pdf/classical_mechanics.pdf)
+
+This initial formulation is compared against a fake theory akin to [Alan Sokal](https://physics.nyu.edu/sokal/transgress_v2/transgress_v2_singlefile.html)'s [infamous paper](https://en.wikipedia.org/wiki/Sokal_affair) "Transgressing the Boundaries: Towards a Transformative Hermeneutics of Quantum Gravity".
+
 > For official academic BibTeX is available in [_latex](./_latex/)
 
 ## Data ETL
 
 1. **Document Understanding** (this was originally a roadblock, now using **Large Language Models**, **LLM**).
-1. **Representation** and parsing into a compact formal object (here, `lean` with the formal technique advanced in the book).
+1. **Representation** and parsing into a compact formal object (here, `Lean` with the formal technique advanced in the book).
 1. **Verification** using Agent-based Artificial Intelligence.
 
 Advantages of this approach:
 1. **LLM**s can perform **Document Understanding** and **Labeling** techniques (where **Supervised Learning** is required).
 1. **LLM**s can now perform basic translation and parsing without significant human intervention or the creation of vast tabular/columnar data sets.
 1. Various Machine Learning techniques can be combined with the output to further reason about, verify, understand the relationsips between, the resultant Formal Theories.
+
+Disadvantages of this approach:
+1. `Lean` won't throw an exception for (or flag) all mathematical contradictions.
+1. There are varying layers of incompatibility (between Formal Theories) that are only partially visualized through `Lean Web`:
+    * Conceptual.
+    * Syntactic - Namespace collisions.
+    * *A stronger verification tool is still needed for more robust comparisons*. Here, the LLM plays the role of verifying Agent using `Lean` artifacts.
 
 ## Resources and Links
 
@@ -51,3 +65,5 @@ Advantages of this approach:
 1. https://www.ipr.northwestern.edu/news/2024/an-existential-crisis-for-science.html
 1. https://suppescorpus.stanford.edu/sites/g/files/sbiybj32751/files/media/file/axiomatic_foundations_of_classical_particle_mechanics_2.pdf
 1. https://philsci-archive.pitt.edu/id/eprint/17445/1/CostaKrause%282020%29-Edelcio.pdf
+1. https://physics.nyu.edu/sokal/transgress_v2/transgress_v2_singlefile.html
+1. https://en.wikipedia.org/wiki/Sokal_affair

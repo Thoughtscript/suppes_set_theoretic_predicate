@@ -1,0 +1,114 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Classical Particle Mechanics as a Suppes Predicate}
+\author{Formalization notes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note expresses the axiomatic system for classical particle mechanics
+of McKinsey, Sugar, and Suppes as a set-theoretic predicate, and gives a
+Lean 4 encoding of its model structure. It distinguishes the six axioms
+from the additional results discussed by the original authors. The Lean
+file formalizes the axiom schema over an explicit abstract signature; it
+does not implement real analysis or prove the original paper's embedding
+theorems.
+\end{abstract}
+
+\section{The Suppes-style predicate}
+
+Fix an ambient signature consisting of a real time domain $T$, a
+finite-dimensional real vector space $V$, a force-index set $I$, and the
+usual notions of interval, positive real, twice differentiable trajectory,
+absolute convergence, and vector sum. A candidate system is the tuple
+\[
+  \mathcal{M} = (P,T,m,s,f),
+\]
+where $P$ is the particle set, $m:P\to\mathbb{R}$ is mass,
+$s:P\times T\to V$ is position, and
+$f:P\times T\times I\to V$ gives the individual forces. Its predicate is
+\[
+\operatorname{CM}(\mathcal{M}) \quad\Longleftrightarrow\quad
+  P_1\land P_2\land P_3\land P_4\land P_5\land P_6,
+\]
+with the clauses in Table~\ref{tab:axioms}. This is a definition of which
+structures count as models, not a claim that every arbitrary tuple
+satisfies the laws.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}clp{0.65\linewidth}@{}}
+\toprule
+ & Axiom & Condition \\
+\midrule
+$P_1$ & Particles & $P$ is finite and nonempty.\\
+$P_2$ & Time & $T$ is an interval in $\mathbb{R}$.\\
+$P_3$ & Kinematics &
+For each $p\in P$, $t\mapsto s(p,t)$ is twice differentiable on $T$.\\
+$P_4$ & Mass & For each $p\in P$, $m(p)>0$.\\
+$P_5$ & Forces &
+For each $(p,t)\in P\times T$, the series
+$\sum_{i\in I}f(p,t,i)$ is absolutely convergent.\\
+$P_6$ & Dynamics &
+For each $(p,t)\in P\times T$,
+\[
+  \sum_{i\in I} f(p,t,i)
+  = m(p)\,\frac{\partial^2 s}{\partial t^2}(p,t).
+\]\\
+\bottomrule
+\end{tabular}
+\caption{The axioms defining an $n$-dimensional system of particle
+mechanics. The vector space $V$ is $\mathbb{R}^n$.}
+\label{tab:axioms}
+\end{table}
+
+\section{Reading the axioms and the reported results}
+
+The kinematic and dynamical clauses work together: $P_3$ supplies
+acceleration as the second time derivative of position, $P_5$ makes the
+total force well-defined independently of the order of summation, and
+$P_6$ equates that force with mass times acceleration. The original paper
+does not assume Newton's first or third law as axioms. It reports the
+first law as a consequence of its system and proves an embedding result
+relating its models to Newtonian systems; those results are not formalized
+in the Lean file here \cite{mckinsey1953axiomatic}.
+
+In the Suppes approach, a set-theoretic predicate is a formula on
+structures that selects the models of a theory. Da Costa and Krause
+emphasize that transportability is relevant when the intent is to capture
+all structures of a kind, but need not be imposed when a predicate is
+intended to select only a particular class \cite{daCostaKrause2020}.
+Accordingly, $\operatorname{CM}$ is stated relative to the ambient
+signature and to the chosen class of particle systems; no claim of
+transportability is made here. Suppes's broader account of scientific
+structures is a methodological reference for this representation
+\cite{suppes2002representation}.
+
+\section{Lean encoding and scope}
+
+The companion file \texttt{\detokenize{_lean/ClassicalMechanics.lean}}
+defines a signature carrying the semantic operations and predicates for
+time intervals, positive masses, differentiability, summability, and force
+summation. A \texttt{System} supplies particles and the functions $m$,
+$s$, acceleration, and $f$, together with witnesses of $P_1$--$P_6$.
+The theorem \texttt{finiteNonemptyParticles} packages $P_1$, and
+\texttt{secondLawHolds} exposes $P_6$ as a checked Lean theorem.
+
+This is a typed, machine-checked formalization of the structural axiom
+schema, not a development of calculus over $\mathbb{R}$. The interpretation
+of the signature's predicates and operations must be supplied by a
+mathematical library or a concrete model before numerical or analytic
+consequences can be proved. The result is therefore deliberately narrower
+than a full formalization of the cited paper.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

@@ -13,7 +13,7 @@ An earlier incarnation of this idea was pitched to [DARPA Score](https://www.dar
 > Find a copy of the seminal book [here](https://philpapers.org/archive/SUPRAI.pdf). And, [here](https://philpapers.org/archive/SUPRAI.pdf) for academic metadata.
 
 1. Complex textual corpuses (written predominantly in Natural Language) can be succinctly expressed into compact formal objects (typically numbering only a few sentences).
-1. Supportive of **Automated Theorem Proving** techniques. Allows one to formally verify logically consistency, coherence with other scientific theories, and extend results.
+1. Supportive of **Automated Theorem Proving** techniques. Allows one to formally verify logical consistency, coherence with other scientific theories, and extend results.
 1. Broadly part of typical activities in the Philosophy of Science, Analytic Philosophy's "Linguistic Turn" (which places supreme importance on disambiguated expressions defined with exacting mathematical rigor).
 1. Most Social Sciences can be formally represented in compact multi-sentence Formal Theories.
 

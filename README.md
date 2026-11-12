@@ -1,6 +1,6 @@
 # suppes_set_theoretic_predicate
 
-*No classified nor controlled information is contained herein.*
+> *No classified nor controlled information is contained herein.*
 
 An earlier incarnation of this idea was pitched to [DARPA Score](https://www.darpa.mil/research/programs/systematizing-confidence-in-open-research-and-evidence), advanced through the initial rounds (before bowing out to [Center for Open Science](https://www.cos.io/) - the very organization that first drew widespread attention to the **Replication Crisis** itself), and an idea developed with slightly greater detail [here](https://www.thoughtscript.io/blog/000000000128). See also:
 * https://www.wired.com/story/darpa-bs-detector-science/
@@ -11,7 +11,7 @@ An earlier incarnation of this idea was pitched to [DARPA Score](https://www.dar
 > Find a copy of the seminal book [here](https://philpapers.org/archive/SUPRAI.pdf). And, [here](https://philpapers.org/archive/SUPRAI.pdf) for academic metadata.
 
 1. Complex textual corpuses (written predominantly in Natural Language) can be succinctly expressed into compact formal objects (typically numbering only a few sentences).
-1. Supportive of **AAutomated Theorem Proving** techniques. Allows one to formally verify logically consistency, coherence with other scientific theories, and extend results.
+1. Supportive of **Automated Theorem Proving** techniques. Allows one to formally verify logically consistency, coherence with other scientific theories, and extend results.
 1. Broadly part of typical activities in the Philosophy of Science, Analytic Philosophy's "Linguistic Turn" (which places supreme importance on disambiguated expressions defined with exacting mathematical rigor).
 1. Most Social Sciences can be formally represented in compact multi-sentence Formal Theories.
 
@@ -19,9 +19,11 @@ The main utility of such a technique/approach is the ability to succinctly repre
 1. not only for establishing the veracity of an experiment, experimental result, paper, or scientific finding
 1. but also for the data and representation compression benefits. Vast textual corpuses can be succinctly expressed as tidy formal artifacts (dispensing with the expository fluff where needed).
 
+> Prior obstacles have been mitigated by advancements in **Document Understanding**, **Machine Learning**, and **Unsupervised Learning**.
+
 ### Example
 
-[Suppes](), [Suppes, Sugar, and McKinsey](), [da Costa and Krause]() discuss Suppes' formulations of **Classical Mechanics**.
+[Suppes](https://philpapers.org/archive/SUPRAI.pdf), [Suppes, Sugar, and McKinsey](https://suppescorpus.stanford.edu/sites/g/files/sbiybj32751/files/media/file/axiomatic_foundations_of_classical_particle_mechanics_2.pdf), [da Costa and Krause](https://philsci-archive.pitt.edu/id/eprint/17445/1/CostaKrause%282020%29-Edelcio.pdf) discuss Suppes' formulations of **Classical Mechanics**.
 
 *An example of this approach using the **Data ETL** (described below) is provided a "lab" (of sorts) within the contents of this repo.*
 

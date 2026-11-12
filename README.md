@@ -76,6 +76,12 @@ Disadvantages of this approach:
     * *A stronger verification tool is still needed for more robust comparisons, consistency checking, etc.*
     * Here, the LLM plays the role of verifying Agent using `Lean` artifacts.
 
+Follow-up:
+1. Some of the Fake Science Theories core claims are semantically (possibly logically) vacuous but no semantic complexity metrics are available in the lab (akin to [Flesh-Kincaid](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests) scores for measuring the semantic expressiveness of the underlying claims).
+    * Some kinds of Theories are mostly vacous and make no substantial assertions and it'd be great to detect/filter that right away.
+1. Direct logical extrapolation on both Theories isn't performed here. "So, if Theory A is correct what follows. And B?"
+1. Direct proposition and sentence comparisons aren't performed here (only trivial namespace, conceptual, and/or definitional conflicts).
+
 ## Resources and Links
 
 1. https://philarchive.org/rec/SUPRAI

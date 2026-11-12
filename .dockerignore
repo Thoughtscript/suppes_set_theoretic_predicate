@@ -1,0 +1,6 @@
+*
+!_lean/
+!_lean/ClassicalMechanics.lean
+!_lean/FakeScience.lean
+!_lean/FakeScienceAudit.lean
+!_lean/check_compatibility.sh

@@ -6,6 +6,8 @@ An earlier incarnation of this idea was pitched to [DARPA Score](https://www.dar
 * https://www.wired.com/story/darpa-bs-detector-science/
 * https://www.ipr.northwestern.edu/news/2024/an-existential-crisis-for-science.html
 
+> Artificial Intelligence helped generate some of the LaTeX and Lean content.
+
 ## Suppes Set Theoretic Predicate
 
 > Find a copy of the seminal book [here](https://philpapers.org/archive/SUPRAI.pdf). And, [here](https://philpapers.org/archive/SUPRAI.pdf) for academic metadata.
@@ -36,8 +38,22 @@ This initial formulation is compared against a fake theory akin to [Alan Sokal](
 
 * Comparison report: [`_latex/compatibility_findings.tex`](_latex/compatibility_findings.tex) and [`_pdf/compatibility_findings.pdf`](_pdf/compatibility_findings.pdf)
 * Fake theory audit: [`_lean/FakeScienceAudit.lean`](_lean/FakeScienceAudit.lean)
-* Reproduce the checks with `bash _lean/check_compatibility.sh` using Lean 4.35.0; the script checks specific diagnostic wording. With `elan`, set `ELAN_TOOLCHAIN=leanprover/lean4:v4.35.0` if no default is configured.
-* Rebuild the comparison PDF with `cd _latex && tectonic --outdir ../_pdf compatibility_findings.tex`.
+* Primarily a scenario where semantic shifts and definitional conflicts arise.
+
+### Run the compatibility check with Docker
+
+From the repository root, build and run the image:
+
+```sh
+docker build -t suppes-compatibility .
+docker run --rm --network none suppes-compatibility
+```
+
+The image includes Lean 4.35.0 and a snapshot of the Lean files at build time.
+Rebuild after changing them. The check exits successfully only if the expected
+name collision and false-axiom dependency are confirmed; error diagnostics for
+the intentionally incompatible declarations are expected. The image supports
+`linux/amd64` and `linux/arm64`.
 
 > For official academic BibTeX is available in [_latex](./_latex/)
 

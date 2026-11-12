@@ -95,3 +95,4 @@ Follow-up:
 1. https://philsci-archive.pitt.edu/id/eprint/17445/1/CostaKrause%282020%29-Edelcio.pdf
 1. https://physics.nyu.edu/sokal/transgress_v2/transgress_v2_singlefile.html
 1. https://en.wikipedia.org/wiki/Sokal_affair
+1. https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests

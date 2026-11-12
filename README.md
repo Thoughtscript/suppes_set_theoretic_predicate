@@ -34,6 +34,11 @@ The main utility of such a technique/approach is the ability to succinctly repre
 
 This initial formulation is compared against a fake theory akin to [Alan Sokal](https://physics.nyu.edu/sokal/transgress_v2/transgress_v2_singlefile.html)'s [infamous paper](https://en.wikipedia.org/wiki/Sokal_affair) "Transgressing the Boundaries: Towards a Transformative Hermeneutics of Quantum Gravity".
 
+* Comparison report: [`_latex/compatibility_findings.tex`](_latex/compatibility_findings.tex) and [`_pdf/compatibility_findings.pdf`](_pdf/compatibility_findings.pdf)
+* Fake theory audit: [`_lean/FakeScienceAudit.lean`](_lean/FakeScienceAudit.lean)
+* Reproduce the checks with `bash _lean/check_compatibility.sh` using Lean 4.35.0; the script checks specific diagnostic wording. With `elan`, set `ELAN_TOOLCHAIN=leanprover/lean4:v4.35.0` if no default is configured.
+* Rebuild the comparison PDF with `cd _latex && tectonic --outdir ../_pdf compatibility_findings.tex`.
+
 > For official academic BibTeX is available in [_latex](./_latex/)
 
 ## Data ETL
@@ -44,7 +49,7 @@ This initial formulation is compared against a fake theory akin to [Alan Sokal](
 
 Advantages of this approach:
 1. **LLM**s can perform **Document Understanding** and **Labeling** techniques (where **Supervised Learning** is required).
-1. **LLM**s can now perform basic translation and parsing without significant human intervention or the creation of vast tabular/columnar data sets.
+1. **LLM Agents** can now perform basic translation and parsing without significant human intervention or the creation of vast tabular/columnar data sets.
 1. Various Machine Learning techniques can be combined with the output to further reason about, verify, understand the relationsips between, the resultant Formal Theories.
 
 Disadvantages of this approach:
@@ -52,7 +57,8 @@ Disadvantages of this approach:
 1. There are varying layers of incompatibility (between Formal Theories) that are only partially visualized through `Lean Web`:
     * Conceptual.
     * Syntactic - Namespace collisions.
-    * *A stronger verification tool is still needed for more robust comparisons*. Here, the LLM plays the role of verifying Agent using `Lean` artifacts.
+    * *A stronger verification tool is still needed for more robust comparisons, consistency checking, etc.*
+    * Here, the LLM plays the role of verifying Agent using `Lean` artifacts.
 
 ## Resources and Links
 

@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+
+\title{Compatibility Findings: Classical Mechanics and FakeScience}
+\author{Formalization notes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Findings}
+
+The two supplied Lean files are not jointly importable as written. Both
+declare the fully qualified name
+\texttt{ClassicalMechanics.secondLawHolds}, but give it different types.
+In \texttt{ClassicalMechanics.lean}, it states, for a system $M$ and a
+particle $p$ at time $t$,
+\[
+  \operatorname{forceSum}(M.\mathrm{force}(p,t))
+  = \operatorname{scale}(M.\mathrm{mass}(p),M.\mathrm{acceleration}(p,t)).
+\]
+This extracts Newton's second law from the system's assumptions; it is
+the $P_6$ clause of the axiomatic presentation
+\cite{mckinsey1953axiomatic}. In \texttt{FakeScience.lean}, the same
+name is instead a theorem of type \texttt{False}. Lean rejects both a
+joint import and the combined declarations because the name is already
+declared. This diagnostic is a \emph{name collision}, not a theorem that
+the two physical claims contradict each other.
+
+The fake file also declares
+\[
+  \texttt{axiom ClassicalMechanics.physics : False}.
+\]
+This is a different and deeper problem: the file assumes a proof of
+\texttt{False}. From that assumption Lean's \texttt{False.elim} derives
+any proposition $Q$, so the resulting theory is logically inconsistent
+relative to ordinary Lean logic. Lean accepts the file because it permits
+users to introduce axioms; acceptance does not validate those axioms.
+The fake theorem explicitly depends on \texttt{physics}; the genuine
+\texttt{secondLawHolds} has no declared axiom dependencies. The supplied
+fake file does not state an alternative force law or supply a model, so
+no specific physical conflict with $P_6$ can be inferred from it.
+Renaming the duplicate theorem would resolve the name collision, but
+would not repair the false axiom.
+
+\section{Reproduction}
+
+With Lean 4 installed, run from the repository root:
+\begin{verbatim}
+  bash _lean/check_compatibility.sh
+\end{verbatim}
+The script compiles both files separately, checks the axiom dependencies,
+and verifies that joint import and combined declarations fail with the
+expected name-collision diagnostics. It also checks
+\texttt{FakeScienceAudit.lean}, which derives an arbitrary proposition
+from the fake axiom and reports the dependency using \texttt{\#print axioms}.
+The checks reported here were run with Lean 4.35.0; the script checks
+specific diagnostic wording, which may change between Lean versions.
+On a machine using \texttt{elan} without a default toolchain, set
+\texttt{ELAN\_TOOLCHAIN} to an installed Lean 4 toolchain first.
+
+These checks do not prove that the abstract classical mechanics
+signature has a concrete real-analysis interpretation, nor do they check
+the truth of any empirical paper. They locate the collision and show
+exactly how the fake file's explicit assumption makes arbitrary
+propositions derivable.
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

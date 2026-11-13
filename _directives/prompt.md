@@ -16,3 +16,13 @@
 1. When placed into the same `Lean` file, an error will be thrown.
 1. Verify that two `.lean` files are incompatible and succinctly detail where they don't cohere.
     1. Publish the findings in `LaTeX` and `PDF`.
+
+## Third Task
+
+In the original example, I had you process several URL's (in prompt.md). The generated example is predominantly about the abstract mathematical structure M.
+
+The Set Theoretic Predicate can be expressed the way you current have but it'd be helpful to generate a second Classical Mechanics Predicate example emphasizing and parsing lean for: CM(M) iff P1 and P2 and ...
+
+Please add this second example without modifying existing .tex, .lean, .pdf files. Add both the generated output and a corresponding FakeScience theory specifically showing a conflict with the target formulation.
+
+Add this to the bash script. Do not modify the README.md

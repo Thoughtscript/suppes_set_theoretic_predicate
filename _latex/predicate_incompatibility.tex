@@ -1,0 +1,154 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Predicate Formulation Incompatibility: FakeSciencePredicate Conflict Analysis}
+\author{Formalization verification}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note documents the incompatibility between the Classical Mechanics
+predicate formulation and a conflicting axiomatization supplied by the
+FakeSciencePredicate module. Using Lean's module system as a verification
+framework, we demonstrate that the predicate approach provides automatic
+detection of axiomatizations that cannot coexist. The conflict arises not
+from subtle semantic disagreement but from explicit redeclaration, making
+the incompatibility decidable and machine-checkable.
+\end{abstract}
+
+\section{Setup: Two Competing Predicates}
+
+The foundational Classical Mechanics predicate defines:
+\[
+  \operatorname{CM}(\mathcal{M}) \iff P_1 \land P_2 \land \cdots \land P_6,
+\]
+where $P_6$ encodes Newton's second law:
+\[
+  \sum_{i \in I} f(p, t, i) = m(p)\,\frac{\partial^2 s}{\partial t^2}(p, t).
+\]
+
+The FakeSciencePredicate module purports to also define a predicate on the
+same namespace (\texttt{ClassicalMechanicsPredicate}), but it does so by
+asserting a false axiom:
+\begin{verbatim}
+  axiom conflict : False
+\end{verbatim}
+
+This immediately makes any predicate definition derived from FakeSciencePredicate
+inconsistent.
+
+\section{Conflict Detection Mechanism}
+
+\subsection{Redeclaration Conflict}
+
+When Lean attempts to process both modules in sequence, it encounters an error:
+\begin{verbatim}
+  environment already contains
+  'ClassicalMechanicsPredicate.isClassicalMechanicsModel'
+  from ClassicalMechanicsPredicate
+\end{verbatim}
+
+This indicates that FakeSciencePredicate cannot redefine an identifier that
+already exists in the shared namespace.
+
+\subsection{False Axiom Dependency}
+
+Any attempt to derive theorems from FakeSciencePredicate results in a
+dependency on the false axiom. Lean's axiom tracking feature reveals:
+\begin{verbatim}
+  'ClassicalMechanicsPredicate.isClassicalMechanicsModel'
+  depends on axioms: [ClassicalMechanicsPredicate.conflict]
+\end{verbatim}
+
+This traces back to the source of inconsistency.
+
+\subsection{Proof by Contradiction}
+
+If one attempts to combine both definitions within a single file or import
+context, the type checker fails:
+\begin{verbatim}
+  'ClassicalMechanicsPredicate.isClassicalMechanicsModel'
+  has already been declared
+\end{verbatim}
+
+Lean refuses to proceed, treating the conflict as a compilation error rather
+than a deferred consistency issue.
+
+\section{Why This Matters: The Role of the Predicate}
+
+In the Suppes tradition, a set-theoretic predicate is intended to be a
+\textit{definition} that characterizes a class of models. The predicate
+succeeds when:
+\begin{enumerate}
+  \item It is internally consistent (provable theorems do not depend on false
+    axioms).
+  \item It correctly captures the intended theory (all axioms are present and
+    sufficient).
+  \item It does not admit vacuous models (systems satisfying the predicate are
+    genuinely classical mechanical).
+\end{enumerate}
+
+FakeSciencePredicate violates all three criteria:
+\begin{enumerate}
+  \item It introduces a false axiom, making the namespace itself inconsistent.
+  \item It attempts to redefine the predicate, corrupting the original definition.
+  \item Any system claimed to satisfy the predicate would satisfy a false
+    statement, making the class of models empty (in a consistent fragment).
+\end{enumerate}
+
+\section{Computational Verification}
+
+The Lean module system provides automated verification of incompatibility:
+\begin{enumerate}
+  \item \textbf{Compile-time detection}: Lean's parser and type checker
+    immediately flag the conflict, providing the exact line and error.
+  \item \textbf{No hidden assumptions}: The incompatibility is not buried in
+    subtle proof steps; it is explicit in the module structure.
+  \item \textbf{Transitive inconsistency}: Any module that imports both
+    \texttt{ClassicalMechanicsPredicate} and \texttt{FakeSciencePredicate}
+    becomes inconsistent.
+\end{enumerate}
+
+The audit module \texttt{PredicateAudit.lean} formalizes this verification
+by attempting to reference both definitions and tracing their axiom
+dependencies.
+
+\section{Lessons for Scientific Formalization}
+
+\subsection{Transparency}
+
+The predicate formulation makes the structure of a scientific theory explicit:
+the choice of axioms, their logical dependencies, and the resulting model class
+are all visible in the Lean source.
+
+\subsection{Decidability}
+
+Incompatibility between rival theories is not a matter of opinion or
+interpretation. The Lean type system decides, automatically and unambiguously,
+whether two axiomatizations can coexist.
+
+\subsection{Modularity}
+
+The predicate approach allows theories to be developed independently and then
+compared. If they are incompatible, that fact is discovered at the moment of
+composition, not after extensive proof development.
+
+\section{Conclusion}
+
+The Classical Mechanics predicate formulation, embodied in the explicit
+conjunction $P_1 \land P_2 \land \cdots \land P_6$, provides a foundation for
+unambiguous scientific theory comparison. When FakeSciencePredicate introduces
+a conflicting axiomatization, the Lean system detects the incompatibility
+deterministically, supporting the view that scientific predicates are not
+merely informal descriptions but formal, machine-checkable structures.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

@@ -40,6 +40,10 @@ This initial formulation is compared against a fake theory akin to [Alan Sokal](
 * Fake theory audit: [`_lean/FakeScienceAudit.lean`](_lean/FakeScienceAudit.lean)
 * Primarily a scenario where semantic shifts and definitional conflicts arise.
 
+A second example is also provided emphasizing the Predicate formulation.
+
+> Both approaches are summarized through Artificial Intelligence [here](./_docs/TWO_APPROACHES.md).
+
 ### Run the compatibility check with Docker
 
 From the repository root, build and run the image:

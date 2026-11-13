@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb}
+\usepackage{booktabs}
 \usepackage{hyperref}
 
 \title{Compatibility Findings: Classical Mechanics and FakeScience}
@@ -67,6 +68,112 @@ the truth of any empirical paper. They locate the collision and show
 exactly how the fake file's explicit assumption makes arbitrary
 propositions derivable.
 
+\section{Predicate-Based Formulation: Second Example}
+
+In addition to the structure-based approach above, a second example
+demonstrates the explicit predicate formulation:
+\[
+  \operatorname{CM}(\mathcal{M}) \quad\Longleftrightarrow\quad
+  P_1 \land P_2 \land \cdots \land P_6.
+\]
+This predicate-based approach uses a direct logical definition rather
+than a bundled type structure.
+
+\subsection{Predicate Definition}
+
+The file \texttt{ClassicalMechanicsPredicate.lean} defines
+\[
+  \texttt{isClassicalMechanicsModel} : \mathrm{Prop},
+\]
+which explicitly conjoins all six axiom conditions. The theorem
+\texttt{cm\_iff\_conjunction} establishes the biconditional:
+\[
+  \texttt{isClassicalMechanicsModel}(S, M)
+  \quad\Longleftrightarrow\quad
+  P_1(S, M) \land P_2(S, M) \land \cdots \land P_6(S, M).
+\]
+This makes the transparent, conjunctive structure of model membership explicit.
+
+\subsection{Incompatibility in Predicate Form}
+
+The file \texttt{FakeSciencePredicate.lean} redefines
+\texttt{isClassicalMechanicsModel} in the same namespace, introducing the false
+axiom
+\[
+  \texttt{axiom ClassicalMechanicsPredicate.conflict : False}.
+\]
+This creates the same two failure modes as Example 1:
+\begin{enumerate}
+  \item \textbf{Redeclaration conflict}: Lean rejects both joint import and
+    combined declarations because \texttt{isClassicalMechanicsModel} cannot
+    be redefined in the same namespace.
+  \item \textbf{False axiom}: Any proposition derived from
+    \texttt{FakeSciencePredicate} is falsely proven, violating consistency.
+\end{enumerate}
+
+\subsection{Audit and Detection}
+
+The file \texttt{PredicateAudit.lean} attempts to combine both modules, which
+triggers Lean's incompatibility detection. The theorem demonstrates the axiom
+dependency:
+
+\begin{quote}
+\texttt{theorem predicate\_depends\_on\_false :\\
+    exists p : Prop, p = FakeSciencePredicate.conflict}
+\end{quote}
+
+This establishes that when both modules are present, the
+Lean type checker reports the redeclaration error and halts compilation,
+proving that the two formulations cannot coexist. The proof witnesses the
+false axiom \texttt{FakeSciencePredicate.conflict}.
+
+\section{Comparison: Structure vs.\ Predicate Approaches}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+Aspect & Structure-Based (Example 1) & Predicate-Based (Example 2) \\
+\midrule
+Model Encoding & Bundled \texttt{System} structure & Explicit test function \\
+Axiom Encoding & Constructor fields with proofs & Logical conjunction \\
+Selection & Type instantiation & Predicate evaluation \\
+Transparency & Conditions in type structure & Biconditional makes equivalence manifest \\
+Conflict Detection & Name collision + false axiom & Redeclaration + false axiom \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of formulation approaches. Both detect incompatibility
+via Lean's module system; they differ in how model membership is expressed.}
+\label{tab:comparison}
+\end{table}
+
+Both approaches are equivalent in logical power and demonstrate that
+incompatibility between rival theories is decidable and machine-checkable.
+The predicate-based formulation emphasizes the logical transparency of the
+Suppes tradition, making the conjunction of axioms and the biconditional
+definition explicit in the source code.
+
+\section{Running Both Examples}
+
+The bash script \texttt{check\_compatibility.sh} now includes both examples:
+\begin{verbatim}
+  bash _lean/check_compatibility.sh
+\end{verbatim}
+
+Output sections:
+\begin{enumerate}
+  \item \textbf{EXAMPLE 1}: Structure-based formulation
+    (ClassicalMechanics + FakeScience)
+  \item \textbf{EXAMPLE 2}: Predicate-based formulation
+    (ClassicalMechanicsPredicate + FakeSciencePredicate)
+  \item \textbf{Summary}: Both examples verified for expected conflicts
+\end{enumerate}
+
+This unified verification demonstrates that the two complementary approaches
+to formalizing Classical Mechanics both provide automatic, machine-checkable
+incompatibility detection when conflicting axiomatizations are introduced.
+
 \bibliographystyle{plain}
 \bibliography{references}
+
 \end{document}

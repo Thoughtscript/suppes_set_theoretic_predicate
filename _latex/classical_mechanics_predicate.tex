@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Classical Mechanics as an Explicit Set-Theoretic Predicate}
+\author{Formalization notes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note expresses classical particle mechanics in explicit predicate form,
+emphasizing the biconditional structure
+$\operatorname{CM}(\mathcal{M}) \iff P_1 \land P_2 \land \cdots \land P_6$.
+The formulation clarifies the direct equivalence between the definition of
+a classical mechanics model and the conjunction of its constitutive axioms.
+A Lean 4 encoding demonstrates how the predicate selects exactly those
+systems satisfying all six conditions, and how incompatibility arises when
+conflicting axiomatizations are present.
+\end{abstract}
+
+\section{The Classical Mechanics Predicate}
+
+We define the Classical Mechanics predicate as a biconditional over a system
+$\mathcal{M} = (P, T, m, s, f)$ with signature components and auxiliary
+structure as in the foundational formulation. The predicate is:
+
+\[
+\operatorname{CM}(\mathcal{M}) \quad\Longleftrightarrow\quad
+  P_1 \land P_2 \land P_3 \land P_4 \land P_5 \land P_6,
+\]
+
+where the six conditions are:
+\begin{enumerate}
+  \item[\(P_1\)] The particle set $P$ is finite and nonempty.
+  \item[\(P_2\)] The time domain $T$ is an interval in $\mathbb{R}$.
+  \item[\(P_3\)] For each particle $p \in P$, position $s(p, \cdot)$ is
+    twice differentiable on $T$.
+  \item[\(P_4\)] For each particle $p \in P$, mass $m(p) > 0$.
+  \item[\(P_5\)] For each pair $(p, t) \in P \times T$, the force series
+    $\sum_{i \in I} f(p, t, i)$ converges absolutely.
+  \item[\(P_6\)] For each pair $(p, t) \in P \times T$, Newton's second law holds:
+    \[
+      \sum_{i \in I} f(p, t, i) = m(p)\, \frac{\partial^2 s}{\partial t^2}(p, t).
+    \]
+\end{enumerate}
+
+\subsection{Predicate as Logical Equivalence}
+
+The predicate $\operatorname{CM}(\mathcal{M})$ is defined such that:
+\[
+  \mathcal{M} \text{ is a classical mechanics model} \quad\Longleftrightarrow\quad
+  \mathcal{M} \text{ satisfies } P_1 \land P_2 \land \cdots \land P_6.
+\]
+
+This formulation makes explicit that to verify membership in the class of
+classical mechanics models, one must check all six conditions, and the
+conjunction is both necessary and sufficient.
+
+\section{Lean Encoding}
+
+The Lean module \texttt{ClassicalMechanicsPredicate.lean} encodes this
+predicate-based approach. The core definition is:
+
+\begin{verbatim}
+def isClassicalMechanicsModel (S : Signature) (M : System S) : Prop :=
+  (Nonempty S.Particle) ∧
+  (HasFiniteCarrier S.Particle) ∧
+  (S.realTimeInterval) ∧
+  (∀ p, S.twiceDifferentiable (M.position p) (M.acceleration p)) ∧
+  (∀ p, S.positive (M.mass p)) ∧
+  (∀ p t, S.absolutelySummable (M.force p t)) ∧
+  (∀ p t, S.forceSum (M.force p t) =
+    S.scale (M.mass p) (M.acceleration p t))
+\end{verbatim}
+
+The theorem \texttt{cm\_iff\_conjunction} establishes the equivalence by
+reflexivity, and \texttt{system\_satisfies\_predicate} shows that any
+\texttt{System} structure satisfying the constructor constraints makes
+\texttt{isClassicalMechanicsModel} true.
+
+\section{Conflict Detection via Incompatible Axiomatizations}
+
+When a second module \texttt{FakeSciencePredicate.lean} is introduced that
+axiomatizes conflicting requirements (e.g., declaring a false axiom in the
+same namespace), the Lean type checker detects the incompatibility. The module
+\texttt{PredicateAudit.lean} attempts to combine both formulations, which
+reveals:
+
+\begin{enumerate}
+  \item Redeclaration conflict: identifiers cannot be declared twice in the
+    same namespace.
+  \item False axiom dependency: any theorem derived from the conflicting module
+    depends on a false axiom, violating consistency.
+  \item Type-checking failure: Lean halts compilation and reports the specific
+    conflict location.
+\end{enumerate}
+
+This demonstrates how the predicate-based approach, once formalized, provides
+automatic verification of consistency: if two axiomatizations cannot coexist
+in a single Lean environment, they are logically incompatible.
+
+\section{Philosophical Implications}
+
+In the Suppes tradition, a set-theoretic predicate identifies a class of
+mathematical structures that are models of a theory. The explicit biconditional
+form $\operatorname{CM}(\mathcal{M}) \iff \bigwedge P_i$ emphasizes that:
+
+\begin{enumerate}
+  \item The predicate is a pure \textit{definition}, not an empirical claim.
+  \item A structure is a classical mechanics model if and only if it satisfies
+    all six conditions; there is no partial membership.
+  \item The Lean formalization serves as a certificate of structural coherence:
+    if the module type-checks, the predicate is internally consistent.
+  \item Incompatibility between rival theories is \textit{decidable} via the
+    module system: conflicts are caught at compile time, not deferred to
+    semantic analysis.
+\end{enumerate}
+
+\section{Comparison with Foundational Formulation}
+
+The foundational formulation (\texttt{ClassicalMechanics.lean}) uses a
+\texttt{System} structure that bundles the conditions as constructor fields,
+ensuring that only systems meeting all requirements can be instantiated. The
+predicate formulation (\texttt{ClassicalMechanicsPredicate.lean}) instead
+provides an explicit test function that returns true precisely when all
+conditions hold. Both approaches are equivalent in power, but the latter
+makes the conjunctive structure and the biconditional semantics transparent.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

@@ -61,7 +61,7 @@ the intentionally incompatible declarations are expected. The image supports
 
 1. **Document Understanding** (this was originally a roadblock, now using **Large Language Models**, **LLM**).
 1. **Representation** and parsing into a compact formal object (here, `Lean` with the formal technique advanced in the book).
-1. **Verification** using Agent-based Artificial Intelligence.
+1. **Verification** using Agent-based Artificial Intelligence (envisioned with a suite of Agent-based tools - here only a simple workflow is demonstrated).
 
 Advantages of this approach:
 1. **LLM**s can perform **Document Understanding** and **Labeling** techniques (where **Supervised Learning** is required).
@@ -81,6 +81,7 @@ Follow-up:
     * Some kinds of Theories are mostly vacous and make no substantial assertions and it'd be great to detect/filter that right away.
 1. Direct logical extrapolation on both Theories isn't performed here. "So, if Theory A is correct what follows. And B?"
 1. Direct proposition and sentence comparisons aren't performed here (only trivial namespace, conceptual, and/or definitional conflicts).
+1. Likely need for additional Formal artifacts (beyond and in addition to `Lean` and its capabilities).
 
 ## Resources and Links
 

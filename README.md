@@ -6,7 +6,7 @@ An earlier incarnation of this idea was pitched to [DARPA Score](https://www.dar
 * https://www.wired.com/story/darpa-bs-detector-science/
 * https://www.ipr.northwestern.edu/news/2024/an-existential-crisis-for-science.html
 
-> Artificial Intelligence helped generate some of the LaTeX and Lean content.
+> Artificial Intelligence helped generate some of the LaTeX, PDF, Markdown, and Lean content.
 
 ## Suppes Set Theoretic Predicate
 

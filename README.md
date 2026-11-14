@@ -46,7 +46,7 @@ A second example is also provided emphasizing the Predicate formulation.
 
 ### Run the compatibility check with Docker
 
-From the repository root, build and run the image:
+From the repository root, build and run the image for a quick local integration-style test and proof of concept:
 
 ```sh
 docker build -t suppes-compatibility .
@@ -79,6 +79,9 @@ Disadvantages of this approach:
     * Syntactic - Namespace collisions.
     * *A stronger verification tool is still needed for more robust comparisons, consistency checking, etc.*
     * Here, the LLM plays the role of verifying Agent using `Lean` artifacts.
+1. **LLM** and **Agential** approaches can hallucinate, construct irrelevant observations, and mislabel **Theoretical Properties**:
+    * Here, not meaning "some supposedly hypothetical properties" rather "the specific mathematical properties that a Theory has".
+    * Example: [Line 73](https://github.com/Thoughtscript/suppes_set_theoretic_predicate/blob/dev/_latex/predicate_incompatibility.tex#L73) misidentifies a [Namespace Violation](https://github.com/leanprover/lean4/blob/55a18a0778169c1ea4655c9915a97b0cb03a5538/src/Lean/Elab/LetRec.lean#L56) as a mathematical **Proof by Contradiction**.
 
 Follow-up:
 1. Some of the Fake Science Theories core claims are semantically (possibly logically) vacuous but no semantic complexity metrics are available in the lab (akin to [Flesh-Kincaid](https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests) scores for measuring the semantic expressiveness of the underlying claims).
